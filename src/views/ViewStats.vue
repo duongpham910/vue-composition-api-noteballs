@@ -28,12 +28,12 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 /*
   imports
 */
 
-  import { ref } from 'vue'
+  import { ref, type Ref } from 'vue'
   import { useStoreNotes } from '@/stores/storeNotes'
   import { vAutofocus } from '@/directives/vAutofocus'
   import { useWatchCharacters } from '@/use/useWatchCharacters'
@@ -48,7 +48,7 @@
   love noteballs
 */
 
-  const loveNoteballs = ref('')
+  const loveNoteballs: Ref<string> = ref('')
   useWatchCharacters(loveNoteballs, 50)
 
 </script>

@@ -14,7 +14,7 @@
       <div class="control">
         <textarea
           :value="modelValue"
-          @input="$emit('update:modelValue', $event.target.value)"
+          @input="emit('update:modelValue', $event.target.value)"
           class="textarea"
           :placeholder="placeholder"
           ref="textareaRef"
@@ -26,13 +26,13 @@
 
     <div class="field is-grouped is-grouped-right">
       <div class="control">
-        <slot name="buttons" />
+        <slot name="buttons"></slot>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 /*
   imports
@@ -72,11 +72,10 @@
 /*
   focus textarea
 */
-
-  const textareaRef = ref(null)
+  const textareaRef = ref<HTMLTextAreaElement | null>(null)
 
   const focusTextarea = () => {
-    textareaRef.value.focus()
+    if(textareaRef.value) textareaRef.value.focus()
   }
 
   defineExpose({

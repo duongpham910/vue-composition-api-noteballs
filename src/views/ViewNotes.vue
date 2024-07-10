@@ -26,13 +26,13 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 /*
   imports
 */
 
-  import { ref } from 'vue'
+  import { ref, type Ref } from 'vue'
   import Note from '@/components/Notes/Note.vue'
   import AddEditNote from '@/components/Notes/AddEditNote.vue'
   import { useStoreNotes } from '@/stores/storeNotes'
@@ -48,13 +48,15 @@
   notes
 */
 
-  const newNote = ref('')
-  const addEditNoteRef = ref(null)
+  const newNote: Ref<string> = ref('')
+  const addEditNoteRef = ref<InstanceType<typeof AddEditNote> | null>(null)
 
   const addNote = () => {
     storeNotes.addNote(newNote.value)
     newNote.value = ''
-    addEditNoteRef.value.focusTextarea()
+    if (addEditNoteRef.value) {
+      addEditNoteRef.value.focusTextarea()
+    }
   }
 
 /*

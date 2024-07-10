@@ -35,7 +35,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 /*
   imports
@@ -92,7 +92,7 @@
   keyboard control
 */
 
-  const handleKeyboard = e => {
+  const handleKeyboard = (e: { key: string; }) => {
     if (e.key === 'Escape') closeModal()
   }
 
