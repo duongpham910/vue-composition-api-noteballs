@@ -1,35 +1,66 @@
 <template>
   <div class="notes">
 
-    <div class="card has-background-success-dark p-4 mb-5">
-      <div class="field">
-        <div class="control">
-          <textarea class="textarea" placeholder="Add a new note" />
-        </div>
-      </div>
-  
-      <div class="field is-grouped is-grouped-right">
-        <div class="control">
-          <button class="button is-link has-background-success">Add New Note</button>
-        </div>
-      </div>
-    </div>
-
-
-    <div
-      v-for="i in 3"
-      :key=i
-      class="card mb-4"
+    <AddEditNote
+      v-model="newNote"
+      placeholder="Add a new note"
+      ref="addEditNoteRef"
     >
-      <div class="card-content">
-        <div class="content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis ex labore fugit autem eveniet, ipsam reprehenderit repudiandae necessitatibus incidunt nesciunt tempora optio saepe, a asperiores delectus doloribus? Aperiam, officia facilis?
-        </div>
-      </div>
-      <footer class="card-footer">
-        <a href="#" class="card-footer-item">Edit</a>
-        <a href="#" class="card-footer-item">Delete</a>
-      </footer>
-    </div>
+      <template #buttons>
+        <button
+          @click="addNote"
+          :disabled="!newNote"
+          class="button is-link has-background-success"
+        >
+          Add New Note
+        </button>
+      </template>
+    </AddEditNote>
+
+    <Note
+      v-for="note in storeNotes.notes"
+      :key="note.id"
+      :note="note"
+    />
+
   </div>
 </template>
+
+<script setup>
+
+/*
+  imports
+*/
+
+  import { ref } from 'vue'
+  import Note from '@/components/Notes/Note.vue'
+  import AddEditNote from '@/components/Notes/AddEditNote.vue'
+  import { useStoreNotes } from '@/stores/storeNotes'
+  import { useWatchCharacters } from '@/use/useWatchCharacters'
+
+/*
+  store
+*/
+
+  const storeNotes = useStoreNotes()
+
+/*
+  notes
+*/
+
+  const newNote = ref('')
+  const addEditNoteRef = ref(null)
+
+  const addNote = () => {
+    storeNotes.addNote(newNote.value)
+    newNote.value = ''
+    addEditNoteRef.value.focusTextarea()
+  }
+
+/*
+  watch characters
+*/
+
+  useWatchCharacters(newNote)
+
+</script>
